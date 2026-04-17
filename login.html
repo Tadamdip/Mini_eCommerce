@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ITE193</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="background-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="login-container">
+        <div class="login-header">
+            <h2>User Login</h2>
+        </div>
+        <form class="login-form">
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Username" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="button" id="checkBtn" class="toggle-btn">Check</button>
+            </div>
+
+            <div id="messageDisplay" class="message"></div>
+
+            <div class="actions">
+                <button type="submit" id="loginBtn" class="btn btn-login">Login</button>
+                <button type="button" id="exitBtn" class="btn btn-exit">Exit</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="dashboard">
+        <p class="oser">your username is <span class="user"></span></p>
+        <h1>Welcome to Second MP in ITE193</h1>
+        <p>Hello, <span id="userDisplay">User</span>!</p>
+        <div class="dashboard-actions">
+            <div class="dropdown">
+                <button class="btn btn-settings" id="settingsBtn">Settings</button>
+                <div class="dropdown-content" id="settingsDropdown">
+                    <a href="#" class="changePassBtn">Change Password</a>  
+                </div>
+            </div>
+
+            <button onclick="location.reload()" class="btn btn-logout">Logout</button>
+        </div>
+    </div>
+
+
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <h2>Change Password</h2>
+            <form id="changePasswordForm">
+                <div class="input-group">
+                    <input type="password" id="oldPassword" placeholder="Old Password" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="newPassword" placeholder="New Password (8+ chars, A-Z, a-z, special)" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="confirmPassword" placeholder="Retype New Password" required>
+                </div>
+                <div id="passwordMessage" class="message"></div>
+                <button type="submit" class="btn btn-login">Update Password</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
