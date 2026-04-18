@@ -1,3 +1,4 @@
+//STEP 12 KA taman
 document.addEventListener('DOMContentLoaded', function () {
     var usernameInput = document.getElementById('username');
     var passwordInput = document.getElementById('password');
@@ -10,22 +11,42 @@ document.addEventListener('DOMContentLoaded', function () {
     var dashboard = document.getElementById('dashboard');
     var userDisplay = document.getElementById('userDisplay');
     var user = document.querySelector('.user');
-    
-    
 
-    var defaultUsers = {
-    sahaf: "0918_SAhaf",
-    tadam: "Tadam__0918"
-    };
+    var showCreateBtn = document.getElementById('showCreateBtn');
+    var createAccountSection = document.getElementById('createAccountSection');
+    var backToLoginBtn = document.getElementById('backToLoginBtn');
+    var createAccountForm = document.getElementById('createAccountForm');
 
-    // load saved users (updated passwords) if available
-    var users = JSON.parse(localStorage.getItem("usersDB")) || defaultUsers;
+    let users = [];
+    var currentUser = null;
 
-    // helper to save updates
-    function saveUsers() {
-    localStorage.setItem("usersDB", JSON.stringify(users));
+    async function loadUsers() {
+        try {
+            const response = await fetch("api/load_users.php");
+            users = await response.json();
+            console.log("users Loaded:", users);
+        } catch (error) {
+            console.error("failed to load users:", error);
+        }
     }
-    var currentUser = "";
+    loadUsers();
+
+    async function saveUsersToFile() {
+        try {
+            const response = await fetch("api/save_users.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(users)
+            });
+            const result = await response.json();
+            return result.success;
+        } catch (error) {
+            console.error("Faile to save users:", users);
+            return false;
+        }
+    }
 
     // show/hide 
     checkBtn.addEventListener('click', function () {
@@ -50,13 +71,14 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // check credentials using users object
-        if (users[username] && users[username] === pass) {
-            showMessage('Login Successful!', 'success');
-            currentUser = username;
-            showDashboard(username);
+        const foundUser = users.find(user => user.username === username && user.password === pass);
+
+        if (foundUser) {
+            showMessage('Login Successfull', 'success');
+            currentUser = foundUser;
+            showDashboard(foundUser);
         } else {
-            showMessage('Login Failed: Invalid credentials.', 'error');
+            showMessage("Login Failed: Invalid credentials.", "error");
         }
     });
 
@@ -73,6 +95,56 @@ document.addEventListener('DOMContentLoaded', function () {
         //window.close();
     });
 
+    //Create Button
+    showCreateBtn.addEventListener('click', function () {
+        loginContainer.style.display = 'none';
+        dashboard.style.display = 'none';
+        createAccountSection.style.display = 'block';
+    });
+
+    //Back to Login button
+    backToLoginBtn.addEventListener('click', function () {
+        createAccountSection.style.display = 'none';
+        loginContainer.style.display = 'block';
+    });
+
+    //to handle create Account
+    createAccountForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const firstName = document.getElementById('firstName').value.trim();
+        const middleName = document.getElementById('middleName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const username = document.getElementById('newUsername').value.trim();
+        const password = document.getElementById('newPassword').value;
+
+        if (!firstName || !lastName || !address || !email || !username || !password) {
+            showMessage("Please complete all the forms.", 'error');
+            return;
+        }
+
+        const existingUser = users.find(u => u.username.toLowerCase() === username.toLowerCase());
+        if (existingUser) {
+            showMessage("Username already exists.", 'error');
+            return;
+        }
+
+        const newUser = { firstName, middleName, lastName, address, email, username, password };
+
+        users.push(newUser);
+
+        const saved = await saveUsersToFile();
+        if (saved) {
+            showMessage("User account created successfully.", 'success');
+            createAccountForm.reset();
+        } else {
+            showMessage("Failed to save user.", 'error');
+        }
+    });
+
+
     function showMessage(msg, type) {
         messageDisplay.textContent = msg;
         messageDisplay.className = 'message ' + type;
@@ -84,11 +156,22 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    function showDashboard(username) {
+    function showDashboard(userObj) {
         loginContainer.style.display = 'none';
+
+        const createAccountSection = document.getElementById('createAccountSection');
+        if (createAccountSection) {
+            createAccountSection.style.display = 'none';
+        }
         dashboard.style.display = 'flex';
-        userDisplay.textContent = username;
-        user.textContent = username;
+        document.getElementById('firstNameDisplay').textContent = userObj.firstName;
+        document.getElementById('profileFirstName').textContent = userObj.firstName;
+        document.querySelector('.user').textContent = userObj.username;
+        document.getElementById('profileMiddleName').textContent = userObj.middleName;
+        document.getElementById('profileLastName').textContent = userObj.lastName;
+        document.getElementById('profileAddress').textContent = userObj.address;
+        document.getElementById('profileEmail').textContent = userObj.email;
+        document.getElementById('profileUsername').textContent = userObj.username;
     }
 
     // ===== SETTINGS + DROPDOWN =====
@@ -119,8 +202,8 @@ document.addEventListener('DOMContentLoaded', function () {
         changePassModal.classList.add('show-modal');
 
         document.getElementById('oldPassword').value = "";
-        document.getElementById('newPassword').value = "";
-        document.getElementById('confirmPassword').value = "";
+        document.getElementById('changeNewPassword').value = "";
+        document.getElementById('changeConfirmPassword').value = "";
         passMssge.style.opacity = '0';
     });
 
@@ -135,19 +218,24 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     //dasdasdasdasdasdasdtiowutoi4uh6io34j6hpi42
-    changePassForm.addEventListener('submit', function (e) {
+    changePassForm.addEventListener('submit', async function (e) {
         e.preventDefault();
 
         var oldpass = document.getElementById('oldPassword').value;
-        var newpass = document.getElementById('newPassword').value;
-        var confirmpass = document.getElementById('confirmPassword').value;
+        var newpass = document.getElementById('changeNewPassword').value;
+        var confirmpass = document.getElementById('changeConfirmPassword').value;
 
         if (!currentUser) {
             showPasswordMessage("No logged-in user.", "error");
             return;
         }
 
-        if (oldpass !== users[currentUser]) {
+        /*if (oldpass !== users[currentUser]) {
+            showPasswordMessage("Old password is incorrect.", "error");
+            return;
+        }*/
+
+        if (oldpass !== currentUser.password) {
             showPasswordMessage("Old password is incorrect.", "error");
             return;
         }
@@ -162,13 +250,24 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        users[currentUser] = newpass;
-        saveUsers(); //  persist update
-        showPasswordMessage("Password changed successfully!", "success");
+        const index = users.findIndex(u => u.username === currentUser.username);
+        if (index === -1) {
+            showPasswordMessage("User not found.", "error");
+            return;
+        }
+        users[index].password = newpass;
+        currentUser = users[index];
 
-        setTimeout(function () {
-            changePassModal.classList.remove('show-modal');
-        }, 1500);
+        const saved = await saveUsersToFile();
+
+        if (saved) {
+            showMessage("Password changed successfully.", 'success');
+            setTimeout(function () {
+                changePassModal.classList.remove('show-modal');
+            }, 1500);
+        } else {
+            showMessage("Failed to save new password.", 'error');
+        }
     });
 
     function validPass(p) {
@@ -181,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showPasswordMessage(msg, type) {
         passMssge.textContent = msg;
-        passMssge.className = 'message ' + type; 
+        passMssge.className = 'message ' + type;
         passMssge.style.opacity = '1';
     }
 });

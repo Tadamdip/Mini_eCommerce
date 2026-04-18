@@ -1,0 +1,56 @@
+[
+    {
+        "firstName": "Alsahaf",
+        "middleName": "Sultan",
+        "lastName": "Dipatuan",
+        "address": "Bangon, Marawi City",
+        "email": "dipatuan.as424@s.msumain.edu.ph",
+        "username": "Sahaf",
+        "password": "@123Dipatuan"
+    },
+    {
+        "firstName": "Al-raafi",
+        "middleName": "Cadar",
+        "lastName": "Indanan",
+        "address": "Msu Commercial, Marawi City",
+        "email": "al-raafi.as424@s.msumain.edu.ph",
+        "username": "Rapi",
+        "password": "@rapi123"
+    },
+    {
+        "firstName": "Sainoor",
+        "middleName": "Tocalo",
+        "lastName": "Saud",
+        "address": "Msu Commercial, Marawi City",
+        "email": "saud.as424@s.msumain.edu.ph",
+        "username": "Sainoor",
+        "password": "@sainoor123"
+    },
+    {
+        "firstName": "Al-owlah",
+        "middleName": "Tocalo",
+        "lastName": "Baniaga",
+        "address": "Msu Commercial, Marawi City",
+        "email": "al-owlah.as424@s.msumain.edu.ph",
+        "username": "al-owlah",
+        "password": "@baniaga123"
+    },
+    {
+        "firstName": "Alimar",
+        "middleName": "loplop",
+        "lastName": "Datunaim",
+        "address": "Msu Commercial, Marawi City",
+        "email": "alimar.as424@s.msumain.edu.ph",
+        "username": "Alimar",
+        "password": "@alimar123"
+    },
+    {
+        "firstName": "Aslan",
+        "middleName": "dip",
+        "lastName": "Barodi",
+        "address": "Msu commercial, Marawi City",
+        "email": "aslan.as424@s.msumain.edu.ph",
+        "username": "aslan",
+        "password": "@barodi123"
+    }
+]

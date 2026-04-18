@@ -32,20 +32,66 @@
 
             <div class="actions">
                 <button type="submit" id="loginBtn" class="btn btn-login">Login</button>
+                <button type="button" id="showCreateBtn" class="btn btn-create">Create Account</button>
                 <button type="button" id="exitBtn" class="btn btn-exit">Exit</button>
             </div>
         </form>
     </div>
 
+    <!--//Create Account Section!!-->
+    <div id="createAccountSection" class="login-container" style="display: none;">
+        <div class="login-header">
+            <h2>Create New User</h2>
+        </div>
+        <form id="createAccountForm" class="login-form">
+            <div class="input-group">
+                <input type="text" id="firstName" placeholder="First Name" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <input type="text" id="middleName" placeholder="Middle Name" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <input type="text" id="lastName" placeholder="Last Name" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <input type="text" id="address" placeholder="Address" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email Address" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <input type="text" id="newUsername" placeholder="Username" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <input type="password" id="newPassword" placeholder="Password" required autocomplete="off">
+            </div>
+            <div class="actions">
+                <button type="submit" class="btn btn-login">Create Account</button>
+                <button type="button" id="backToLoginBtn" class="btn btn-exit">Back</button>
+            </div>
+        </form>
+
+    </div>
+
     <div id="dashboard">
         <p class="oser">your username is <span class="user"></span></p>
         <h1>Welcome to Second MP in ITE193</h1>
-        <p>Hello, <span id="userDisplay">User</span>!</p>
+        <p>Hello, <span id="firstNameDisplay">User</span>!</p>
+
+        <div id="profileInfo" class="profile-box">
+            <p><strong>First Name:</strong><span id="profileFirstName"></span></p>
+            <p><strong>Middle Name:</strong><span id="profileMiddleName"></span></p>
+            <p><strong>Last Name:</strong><span id="profileLastName"></span></p>
+            <p><strong>Address:</strong><span id="profileAddress"></span></p>
+            <p><strong>Email:</strong><span id="profileEmail"></span></p>
+            <p><strong>Username:</strong><span id="profileUsername"></span></p>
+        </div>
+
         <div class="dashboard-actions">
             <div class="dropdown">
                 <button class="btn btn-settings" id="settingsBtn">Settings</button>
                 <div class="dropdown-content" id="settingsDropdown">
-                    <a href="#" class="changePassBtn">Change Password</a>  
+                    <a href="#" class="changePassBtn">Change Password</a>
                 </div>
             </div>
 
@@ -63,10 +109,11 @@
                     <input type="password" id="oldPassword" placeholder="Old Password" required>
                 </div>
                 <div class="input-group">
-                    <input type="password" id="newPassword" placeholder="New Password (8+ chars, A-Z, a-z, special)" required>
+                    <input type="password" id="changeNewPassword"
+                        placeholder="New Password (8+ chars, A-Z, a-z, special)" required>
                 </div>
                 <div class="input-group">
-                    <input type="password" id="confirmPassword" placeholder="Retype New Password" required>
+                    <input type="password" id="changeConfirmPassword" placeholder="Retype New Password" required>
                 </div>
                 <div id="passwordMessage" class="message"></div>
                 <button type="submit" class="btn btn-login">Update Password</button>
