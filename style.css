@@ -178,7 +178,7 @@ body {
     background: #f0f0f0;
     transform: scale(1.05);
     border-color: rgba(1, 249, 35, 0.5);
-    box-shadow: 0 0 8px #00ffcc;
+    box-shadow: 0 0 8px #00ffccb7;
 }
 
 .btn-exit {
