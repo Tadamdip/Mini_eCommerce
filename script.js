@@ -174,6 +174,24 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('profileUsername').textContent = userObj.username;
     }
 
+    // ===== TOGGLE PROFILE INFO =====
+    var toggleProfileBtn = document.getElementById('toggleProfileBtn');
+    var profileInfo = document.getElementById('profileInfo');
+
+    toggleProfileBtn.addEventListener('click', function () {
+        if (profileInfo.style.display === 'none') {
+            profileInfo.style.display = 'block';
+            profileInfo.classList.add('profile-show');
+            toggleProfileBtn.innerHTML = '<span class="toggle-icon">▼</span> Hide Profile Info';
+            toggleProfileBtn.classList.add('active');
+        } else {
+            profileInfo.style.display = 'none';
+            profileInfo.classList.remove('profile-show');
+            toggleProfileBtn.innerHTML = '<span class="toggle-icon">▶</span> View Profile Info';
+            toggleProfileBtn.classList.remove('active');
+        }
+    });
+
     // ===== SETTINGS + DROPDOWN =====
     var settingsBtn = document.getElementById('settingsBtn');
     var settingsDropdown = document.getElementById('settingsDropdown');
