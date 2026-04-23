@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Inventory Product</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="store.css">
+</head>
+
+<body>
+    <div class="background-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="store-container">
+        <div class="store-header">
+            <h1>Product Inventory</h1>
+            <a href="cart.html" class="btn btn-create" style="text-decoration: none; display: inline-block;">Go to Cart
+                (<span class="cartBadge">0</span>)</a>
+            <button id="logoutBtn" class="btn btn-exit" style="margin-left: 10px;">Logout</button>
+        </div>
+
+        <div id="loadingMessage" style="color: white; text-decoration: center;">Loading products from firebase...</div>
+
+        <!-- The Product will appear here by JS   -->
+        <div id="productsGrid" class="products-grid"></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="inventory.js"></script>
+
+</body>
+
+</html>
