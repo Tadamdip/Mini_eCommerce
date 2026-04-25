@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cart</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="store.css">
+</head>
+
+<body>
+    <div class="background-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="store-container">
+        <div class="store-header">
+            <h1>🛒 My Shopping Cart</h1>
+            <a href="inventory.html" class="btn btn-exit" style="text-decoration: none; display: inline-block;">
+                ← Back to Inventory
+            </a>
+        </div>
+
+        <div id="cartContent"
+            style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; color: white;">
+            <!-- Cart table injected here -->
+        </div>
+
+        <button id="checkoutBtn" class="btn btn-create" style="margin-top: 20px; width: 100%;">✅ Proceed to
+            Checkout</button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="cart.js"></script>
+</body>
+
+</html>
