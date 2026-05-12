@@ -74,8 +74,11 @@
     </div>
 
     <div id="dashboard">
+        <button onclick="window.location.href='inventory.html'" class="btn btn-inventory-top">
+            <img src="logo/icons8-inventory-100.png" alt="Inventory" class="inventory-icon">
+        </button>
         <p class="oser">your username is <span class="user"></span></p>
-        <h1>Welcome to Second MP in ITE193</h1>
+        <h1>Welcome to Mini E-commerce System</h1>
         <p>Hello, <span id="firstNameDisplay">User</span>!</p>
 
         <button type="button" id="toggleProfileBtn" class="btn btn-toggle-profile">
@@ -93,14 +96,14 @@
 
         <div class="dashboard-actions">
             <div class="dropdown">
-            <!--APRIL 27, 2026--><button onclick="window.location.href='inventory.html'" class="btn btn-login">Go to Inventory</button>
                 <button class="btn btn-settings" id="settingsBtn">Settings</button>
                 <div class="dropdown-content" id="settingsDropdown">
                     <a href="#" class="changePassBtn">Change Password</a>
                 </div>
             </div>
 
-            <button onclick="location.reload()" class="btn btn-logout">Logout</button>
+            <button onclick="logout()" class="btn btn-logout">Logout</button>
+            <!--<button onclick="location.reload()" class="btn btn-logout">Logout</button>-->
         </div>
     </div>
 
