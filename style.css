@@ -122,6 +122,42 @@ body {
     transition: transform 0.3s ease;
 }
 
+/* Styling for the top-right FIXED Inventory button */
+.btn-inventory-top {
+    position: fixed; /* Changed from absolute to fixed */
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.15); /* Slightly brighter for visibility */
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 10px; /* Adjusted for icon-only look */
+    border-radius: 50%; /* Makes it a nice circular floating button */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(10px);
+    z-index: 9999; /* Ensures it stays on top of everything */
+    width: 50px;
+    height: 50px;
+}
+
+.btn-inventory-top:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1) rotate(5deg); /* Added a little pop and rotation */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.btn-inventory-top .inventory-icon {
+    width: 28px; 
+    height: 28px;
+    object-fit: contain;
+    /*filter: brightness(0) invert(1);*/
+}
+
+
+
 .login-header h2 {
     font-size: 2rem;
     color: #fff;
@@ -359,15 +395,13 @@ body {
 .oser {
     position: absolute;
     top: 1rem;
-    right: 3.6rem;
+    right: 80px;
     font-size: 1.2rem;
     opacity: 0.8;
     white-space: nowrap;
 }
 
 .user {
-    top: 1rem;
-    right: 1rem;
     font-size: larger;
     color: #fefefe;
     text-shadow: 2px 2px 2.5px rgba(12, 10, 0, 0.5);
