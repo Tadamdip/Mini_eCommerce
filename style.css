@@ -241,14 +241,49 @@ body {
     transition: all 0.3s ease;
 }
 
-.btn-login {
+
+.btn-login,
+.btnlogin-create,
+.btn-loginexit {
     background: #fff;
     color: #333;
 }
 
+.btnlogin-create {
+    background: #fff;
+    color: #333;
+}
+
+.btn-loginexit {
+    background: #fff;
+    color: #333;
+}
+
+.btnlogin-create:hover{
+    background: #f0f0f0;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-loginexit:hover{
+    background: rgba(255, 60, 60, 0.4);
+    border-color: rgba(255, 60, 60, 0.6);
+    transform: translateY(-4px);
+}
+
 .btn-create {
-    background: #ffffff;
-    color: #3c9b6f;
+    background: rgba(255, 255, 255, 0.884); /* Slightly brighter for visibility */
+    color: #0c0404;
+    border: 1px solid rgba(253, 253, 253, 0.92);
+    padding: 10px; /* Adjusted for icon-only look */
+    border-radius: 30px; /* Makes it a nice circular floating button */
+    cursor: pointer;
+    display: inline-block;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(10px);
+    z-index: 9999; /* Ensures it stays on top of everything */
+    width: 50px;
+    height: 50px;
 }
 
 .btn-login:hover {
@@ -258,7 +293,7 @@ body {
 }
 
 .btn-create:hover {
-    background: #f0f0f0;
+    background: #f0f0f0b2;
     transform: scale(1.05);
     border-color: rgba(1, 249, 35, 0.5);
     box-shadow: 0 0 8px #00ffcc;
@@ -266,14 +301,24 @@ body {
 
 .btn-exit {
     background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #0b0909;
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 30px; 
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(10px);
+    z-index: 9999; 
+    width: 50px;
+    height: 50px;
 }
 
 .btn-exit:hover {
     background: rgba(255, 60, 60, 0.4);
     border-color: rgba(255, 60, 60, 0.6);
-    transform: translateY(4px);
+    transform: translateY(-4px);
 }
 
 .dashboard-actions {

@@ -1,5 +1,6 @@
-//STEP 12 KA taman
+
 document.addEventListener('DOMContentLoaded', function () {
+
     var usernameInput = document.getElementById('username');
     var passwordInput = document.getElementById('password');
     var checkBtn = document.getElementById('checkBtn');
@@ -17,34 +18,80 @@ document.addEventListener('DOMContentLoaded', function () {
     var backToLoginBtn = document.getElementById('backToLoginBtn');
     var createAccountForm = document.getElementById('createAccountForm');
 
+
     let users = [];
     var currentUser = null;
 
-    async function loadUsers() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const isLogout = urlParams.get("logout") === "1";
+
+    if (isLogout) {
+        localStorage.removeItem("currentUser");
+        loginContainer.style.display = "block";
+        dashboard.style.display = "none";
+        createAccountSection.style.display = "none";
+
+        // remove ?logout=1 from URL
+        window.history.replaceState({}, document.title, "login.html");
+    } else {
+        const savedUser = localStorage.getItem("currentUser");
+
+        if (savedUser) {
+            currentUser = JSON.parse(savedUser);
+            showDashboard(currentUser);
+        }
+    }
+
+        async function loadUsers() {
         try {
             const response = await fetch("api/load_users.php");
-            users = await response.json();
-            console.log("users Loaded:", users);
+            const data = await response.json();
+            
+            // Check if the database sent back an error message
+            if (data && data.success === false) {
+                console.error("Database error:", data.message);
+                users = []; // Keep users as an empty array so the page doesn't crash
+            } else {
+                users = data;
+                console.log("users Loaded:", users);
+            }
         } catch (error) {
             console.error("failed to load users:", error);
+            users = [];
         }
     }
     loadUsers();
 
-    async function saveUsersToFile() {
+
+
+    // For creating a new account
+    async function registerUser(newUser) {
         try {
-            const response = await fetch("api/save_users.php", {
+            const response = await fetch("api/save_user.php", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(users)
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newUser)
             });
             const result = await response.json();
-            return result.success;
+            return result; // { success: true/false, message: "..." }
         } catch (error) {
-            console.error("Faile to save users:", users);
-            return false;
+            console.error("Failed to register user:", error);
+            return { success: false, message: "Network error." };
+        }
+    }
+    // For changing the password
+    async function updatePassword(username, newPassword) {
+        try {
+            const response = await fetch("api/update_pass.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, newPassword })
+            });
+            const result = await response.json();
+            return result; // { success: true/false, message: "..." }
+        } catch (error) {
+            console.error("Failed to update password:", error);
+            return { success: false, message: "Network error." };
         }
     }
 
@@ -73,13 +120,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const foundUser = users.find(user => user.username === username && user.password === pass);
 
-        if (foundUser) {
+        /*if (foundUser) {
             showMessage('Login Successfull', 'success');
             currentUser = foundUser;
-            showDashboard(foundUser);
+            // Instead of showDashboard(foundUser), let's redirect!
+            setTimeout(() => {
+                 window.location.href = "inventory.html";
+            }, 1000);
+        } else {
+            showMessage("Login Failed: Invalid credentials.", "error");
+        }*/
+
+        if (foundUser) {        //APRIL 27, 2026
+            showMessage('Login Successfull', 'success');
+            currentUser = foundUser;
+
+            localStorage.setItem('currentUser', JSON.stringify(foundUser));
+
+            setTimeout(() => {
+                showDashboard(currentUser);
+            }, 1000);
+
         } else {
             showMessage("Login Failed: Invalid credentials.", "error");
         }
+
     });
 
     // exit
@@ -110,6 +175,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //to handle create Account
     createAccountForm.addEventListener('submit', async function (e) {
+
         e.preventDefault();
 
         const firstName = document.getElementById('firstName').value.trim();
@@ -125,24 +191,20 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const existingUser = users.find(u => u.username.toLowerCase() === username.toLowerCase());
-        if (existingUser) {
-            showMessage("Username already exists.", 'error');
-            return;
-        }
-
         const newUser = { firstName, middleName, lastName, address, email, username, password };
 
-        users.push(newUser);
+        // PHP now handles the duplicate username check — no need for local users.find()
+        const result = await registerUser(newUser);
 
-        const saved = await saveUsersToFile();
-        if (saved) {
+        if (result.success) {
             showMessage("User account created successfully.", 'success');
             createAccountForm.reset();
+            await loadUsers(); // refresh local users array from DB
         } else {
-            showMessage("Failed to save user.", 'error');
+            showMessage(result.message, 'error');
         }
     });
+
 
 
     function showMessage(msg, type) {
@@ -276,15 +338,16 @@ document.addEventListener('DOMContentLoaded', function () {
         users[index].password = newpass;
         currentUser = users[index];
 
-        const saved = await saveUsersToFile();
+        const result = await updatePassword(currentUser.username, newpass);
 
-        if (saved) {
+        if (result.success) {
+            currentUser.password = newpass; // update in-memory too
             showMessage("Password changed successfully.", 'success');
             setTimeout(function () {
                 changePassModal.classList.remove('show-modal');
             }, 1500);
         } else {
-            showMessage("Failed to save new password.", 'error');
+            showMessage(result.message, 'error');
         }
     });
 
@@ -302,3 +365,8 @@ document.addEventListener('DOMContentLoaded', function () {
         passMssge.style.opacity = '1';
     }
 });
+
+    function logout() {
+        localStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+    }

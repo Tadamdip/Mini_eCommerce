@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Inventory Product</title>
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="store.css">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Inventory Product</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="store.css">
 </head>
 
 <body>
@@ -16,15 +17,14 @@
     <div class="store-container">
         <div class="store-header">
             <h1>Product Inventory</h1>
-            <a href="cart.html" class="btn btn-create" style="text-decoration: none; display: inline-block;">🛒
+            <a href="cart.html" class="btn-create" style="text-decoration: none; display: inline-block;">🛒
                 (<span id="cartBadge">0</span>)</a>
 
             <button onclick="window.location.href='login.html'"
-                class="btn btn-exit" style="width: auto; padding: 10px 20px;">
+                class="btn-exit" style="width: auto; padding: 10px 20px;">
                 ←
             </button>
-            <!--<button id="logoutBtn" class="btn btn-exit" style="margin-left: 10px;">Logout</button>-->
-            <button onclick="logout()" id="logoutBtn" class="btn btn-logout" style="margin-left: 10px;">Logout</button>
+            <button id="logoutBtn" class="btn-exit" style="margin-left: 10px;">Logout</button>
         </div>
 
         <div id="loadingMessage" style="color: white; text-decoration: center;">Loading products from MySQL...</div>
