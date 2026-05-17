@@ -1,13 +1,9 @@
 <?php
-session_start();
 header('Content-Type: application/json');
+require_once __DIR__ . '/mydb.php';
 
-$file = __DIR__ . '/../users.json';
+$stmt = $pdo->query("SELECT firstName, middleName, lastName, address, email, username, password FROM users");
+$users = $stmt->fetchAll();
 
-if(!file_exists($file)){
-    echo json_encode([]);
-    exit;
-}
-
-echo file_get_contents($file);
+echo json_encode($users);
 ?>

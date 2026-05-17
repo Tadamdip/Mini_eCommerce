@@ -1,29 +1,37 @@
 <?php
 header('Content-Type: application/json');
+require_once __DIR__ . '/mydb.php';
 
-$file = __DIR__ . '/../users.json';
+$data = json_decode(file_get_contents("php://input"), true);
 
-$data = file_get_contents("php://input");
-$users = json_decode($data, true);
-
-if ($users === null) {
-    echo json_encode([
-        "success" => false,
-        "message" => "Invalid  data."
-    ]);
+if (!$data || empty($data['username']) || empty($data['password'])) {
+    echo json_encode(["success" => false, "message" => "Invalid data."]);
     exit;
 }
 
-$result = file_put_contents($file, json_encode($users, JSON_PRETTY_PRINT));
-if ($result === false) {
-    echo json_encode([
-        "success" => false,
-        "message" => "Failed to save users."
-    ]);
-} else {
-    echo json_encode([
-        "success" => true,
-        "message" => "Users saved successfully."
-    ]);
+// Check if username already exists
+$check = $pdo->prepare("SELECT id FROM users WHERE username = ?");
+$check->execute([$data['username']]);
+if ($check->fetch()) {
+    echo json_encode(["success" => false, "message" => "Username already exists."]);
+    exit;
 }
+
+// Insert new user
+$stmt = $pdo->prepare("
+    INSERT INTO users (firstName, middleName, lastName, address, email, username, password)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+");
+
+$stmt->execute([
+    $data['firstName'],
+    $data['middleName'] ?? '',
+    $data['lastName'],
+    $data['address'],
+    $data['email'],
+    $data['username'],
+    $data['password']   // plain text — consider password_hash() later
+]);
+
+echo json_encode(["success" => true, "message" => "User registered successfully."]);
 ?>
