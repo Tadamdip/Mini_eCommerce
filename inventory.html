@@ -17,6 +17,9 @@
     <div class="store-container">
         <div class="store-header">
             <h1>Product Inventory</h1>
+            <button id="openAddModalBtn" class="btn-create" style="width: auto; padding: 0 20px; font-weight: 500;">
+                ➕
+            </button>
             <a href="cart.html" class="btn-create" style="text-decoration: none; display: inline-block;">🛒
                 (<span id="cartBadge">0</span>)</a>
 
@@ -37,6 +40,42 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>  -->
     <script src="inventory.js"></script>
+
+    <!-- ➕ NEW: Add Product Modal -->
+    <div id="addProductModal" class="modal">
+        <div class="modal-content">
+            <span id="closeAddModalBtn" class="close-btn">&times;</span>
+            <h2>Add New Product</h2>
+            
+            <form id="addProductForm" enctype="multipart/form-data">
+                <div class="input-group">
+                    <input type="text" id="addProdCode" name="productCode" placeholder="Product Code (e.g. PROD001)" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="addProdName" name="productName" placeholder="Product Name" required>
+                </div>
+                <div class="input-group">
+                    <input type="number" id="addProdPrice" name="unitPrice" step="0.01" placeholder="Unit Price (₱)" required>
+                </div>
+                <div class="input-group">
+                    <input type="number" id="addProdQty" name="quantity" placeholder="Available Quantity" required>
+                </div>
+                
+                <div class="input-group" style="border: 1px dashed rgba(255,255,255,0.3); padding: 15px; border-radius: 15px; text-align: center; background: rgba(255,255,255,0.05);">
+                    <label for="addProdImage" style="color: #fff; font-size: 0.9rem; cursor: pointer; display: block; margin-bottom: 5px;">
+                        📷 Choose Product Image
+                    </label>
+                    <input type="file" id="addProdImage" name="productImage" accept="image/*" required style="display: none;">
+                    <span id="fileNameLabel" style="color: rgba(255,255,255,0.6); font-size: 0.8rem; word-break: break-all;">No photo selected</span>
+                </div>
+
+                <div id="addProductMessage" class="message"></div>
+
+                <button type="submit" class="btn btn-login" style="margin-top: 15px;">Add Product</button>
+            </form>
+        </div>
+    </div>
+
 
 </body>
 
